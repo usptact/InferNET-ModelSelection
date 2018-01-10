@@ -3,7 +3,9 @@ A simple model showing how model selection works using Bayes factor. Two models 
 1. There is treatment effect (the "has effect" model)
 2. There is no treatment effect (the "no effect" model)
 
+The factor graph is:
 ![Graphical Model](https://github.com/usptact/InferNET-ModelSelection/blob/master/graphical_model.png)
+Note: The picture is taken from ![Model-Based Machine Learning book](http://www.mbmlbook.com/Asthma_Modelling_with_gates.html) online book. I don't own this picture!
 
 The data are binary trials outcomes: a patient has recovered or not.
 
