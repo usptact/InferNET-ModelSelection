@@ -3,6 +3,8 @@ A simple model showing how model selection works using Bayes factor. Two models 
 1. There is treatment effect (the "has effect" model)
 2. There is no treatment effect (the "no effect" model)
 
+![Graphical Model](https://github.com/usptact/InferNET-ModelSelection/blob/master/graphical_model.png)
+
 The data are binary trials outcomes: a patient has recovered or not.
 
 The "has treatment" model separates the group that has received a treatment from a group that hasn't. The Bernoulli posterior distributions are different and are inferred.
