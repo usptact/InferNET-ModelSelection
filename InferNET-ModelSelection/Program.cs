@@ -21,9 +21,16 @@ namespace InferNET_ModelSelection
             // True parameters for synthetic data generation
             //
 
+            // number of data points to generate
             int n = 100;
+
+            // probability of recovery of administered the treatment
             double probTreated = 0.90;
+
+            // probability of recovery if believed to be administered the treatment
             double probControl = 0.51;
+
+            // probability of recovery if no treatment is administered
             double probRecovery = 0.50;
 
             bool[] treatedData, controlData;
