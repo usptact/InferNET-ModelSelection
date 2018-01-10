@@ -4,13 +4,60 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using MicrosoftResearch.Infer;
+using MicrosoftResearch.Infer.Models;
 using MicrosoftResearch.Infer.Distributions;
 
 namespace InferNET_ModelSelection
 {
     class Model
     {
+        Variable<bool> model;
+
+        Variable<double> probTreated;
+        Variable<double> probControl;
+        Variable<double> probRecovery;
+
+        VariableArray<bool> treated;
+        VariableArray<bool> control;
+
+        Variable<int> numItems;
+
         public Model()
+        {
+
+        }
+
+        public void CreateModel()
+        {
+            model = Variable.New<bool>();
+
+            probTreated = Variable.New<double>();
+            probControl = Variable.New<double>();
+            probRecovery = Variable.New<double>();
+
+            numItems = Variable.New<int>();
+            Range items = new Range(numItems);
+
+            treated = Variable.Array<bool>(items);
+            control = Variable.Array<bool>(items);
+
+            using (Variable.ForEach(items))
+            {
+                using (Variable.If(model))
+                {
+                    treated[items] = Variable.Bernoulli(probTreated);
+                    control[items] = Variable.Bernoulli(probControl);
+                }
+
+                using (Variable.IfNot(model))
+                {
+                    treated[items] = Variable.Bernoulli(probRecovery);
+                    control[items] = Variable.Bernoulli(probRecovery);
+                }
+            }
+        }
+
+        public void SetModelData(ModelData modelData)
         {
 
         }
