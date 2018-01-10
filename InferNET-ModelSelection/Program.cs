@@ -12,16 +12,28 @@ namespace InferNET_ModelSelection
         static void Main(string[] args)
         {
             //
+            // Set this!
+            //
+
+            bool hasEffect = true;
+
+            //
             // True parameters for synthetic data generation
             //
 
             int n = 100;
-            double probModel = 0.75;
             double probTreated = 0.90;
-            double probControl = 0.55;
+            double probControl = 0.51;
             double probRecovery = 0.50;
 
-            Model.GenerateData(n, probModel, probTreated, probControl, probRecovery, out bool[] treatedData, out bool[] controlData);
+            bool[] treatedData, controlData;
+
+            if (hasEffect)
+                Model.GenerateHasEffectData(n, probTreated, probControl,
+                                            out treatedData, out controlData);
+            else
+                Model.GenerateNoEffectData(n, probRecovery,
+                                           out treatedData, out controlData);
 
             //
             // set priors
@@ -44,6 +56,33 @@ namespace InferNET_ModelSelection
             model.CreateModel();
             model.SetModelData(priors);
             ModelData posterior = model.InferModelData(treatedData, controlData);
+
+            //
+            // print posteriors
+            //
+
+            if (hasEffect)
+            {
+                Console.WriteLine("Has Effect Model probability: {0} +/- {1}",
+                                  posterior.modelPriorDist.GetMean(),
+                                  posterior.modelPriorDist.GetVariance());
+                Console.WriteLine("probTreated: {0} +/- {1}",
+                                  posterior.treatedPriorDist.GetMean(),
+                                  posterior.treatedPriorDist.GetVariance());
+                Console.WriteLine("probControl: {0} +/- {1}",
+                                  posterior.controlPriorDist.GetMean(),
+                                  posterior.controlPriorDist.GetVariance());
+            }
+            else
+            {
+                Console.WriteLine("No Effect Model probability: {0} +/- {1}",
+                                  1 - posterior.modelPriorDist.GetMean(),
+                                  posterior.modelPriorDist.GetVariance());
+                Console.WriteLine("probRecovery: {0} +/- {1}",
+                                  posterior.recoverPriorDist.GetMean(),
+                                  posterior.recoverPriorDist.GetVariance());
+            }
+
         }
     }
 }
