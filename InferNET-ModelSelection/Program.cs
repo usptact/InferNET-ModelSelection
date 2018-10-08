@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using MicrosoftResearch.Infer.Distributions;
+using Microsoft.ML.Probabilistic.Distributions;
 
 namespace InferNET_ModelSelection
 {
@@ -90,6 +86,7 @@ namespace InferNET_ModelSelection
                                   posterior.recoverPriorDist.GetVariance());
             }
 
+            Console.ReadKey();
         }
     }
 }
